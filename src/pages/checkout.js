@@ -175,7 +175,7 @@ const checkout = () => {
                 </h2>
 
                 {items.map((item, i) => (
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between" key={i}>
                     <div className="flex items-center justify-center">
                       {item.product.title} (x{item.cnt})
                     </div>
