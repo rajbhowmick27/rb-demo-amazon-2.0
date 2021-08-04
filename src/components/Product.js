@@ -67,7 +67,7 @@ const Product = ({ id, title, price, description, category, image }) => {
           </div>
       )}
       
-      <button onClick={addItemToBasket} className="mt-auto button">Add to Basket</button>
+      <button onClick={addItemToBasket} className="mt-auto button">Add to Cart</button>
     </div>
   );
 };

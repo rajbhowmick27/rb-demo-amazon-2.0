@@ -14,7 +14,7 @@ import {
   ChevronUpIcon,
   XCircleIcon,
 } from "@heroicons/react/solid";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { signIn, signOut, useSession } from "next-auth/client";
 import { useRouter } from "next/router";
@@ -25,6 +25,8 @@ import { getSearchQuery, setSearch } from "../slices/searchSlice";
 const Header = ({ openVoiceSearch }) => {
   const [show, setShow] = useState(false);
   const { search } = useSelector(getSearchQuery);
+
+  const searchRef = useRef();
 
   const router = useRouter();
 
@@ -70,22 +72,47 @@ const Header = ({ openVoiceSearch }) => {
 
         {/* Search */}
         <div className="flex items-center flex-grow space-x-2">
+        <form onSubmit={(e) => {
+              e.preventDefault();
+              const query = searchRef.current.value;
+              if (router.pathname !== "/") {
+                router.push(`/search/${query}`);
+              }
+
+              dispatch(setSearch(query));
+            }}
+            className="w-full"
+          >
           <div className="flex items-center h-10 rounded-md flex-grow cursor-pointer bg-yellow-400 hover:bg-yellow-500">
-            <input
-              className="p-2 h-full w-6 flex-grow flex-shrink rounded-l-md focus:outline-none px-4"
-              type="text"
-              placeholder="Search"
-              value={search?.toLowerCase()}
-              onChange={handleChange}
-            />
+            
+              <input
+                ref={searchRef}
+                className="p-2 h-full w-6 flex-grow flex-shrink rounded-l-md focus:outline-none px-4"
+                type="text"
+                placeholder="Search"
+                value={search?.toLowerCase()}
+                onChange={handleChange}
+              />
+            
             {search?.length > 0 && (
               <div className="bg-white flex items-center justify-center h-10">
                 <XCircleIcon className="h-6 text-black" onClick={clearSearch} />
               </div>
             )}
 
-            <SearchIcon className="h-12 p-4" onClick={handleChange} />
+            <SearchIcon
+              className="h-12 p-4"
+              onClick={() => {
+                const query = searchRef.current.value;
+                if (router.pathname !== "/") {
+                  router.push(`/search/${query}`);
+                }
+
+                dispatch(setSearch(query));
+              }}
+            />
           </div>
+            </form>
           <MicrophoneIcon
             className="h-8 text-gray-300 cursor-pointer"
             onClick={openVoiceSearch}
@@ -135,7 +162,7 @@ const Header = ({ openVoiceSearch }) => {
                 leaveTo="opacity-0 scale-95"
               >
                 <div className="z-30 origin-top-right absolute right-0 w-48 py-2 mt-1 bg-black translate-y-3 rounded-lg shadow-md">
-                  <Link href="#">
+                  <Link href="/account">
                     <a className="list_item">My Account</a>
                   </Link>
                   <Link href="/orders">
@@ -161,7 +188,7 @@ const Header = ({ openVoiceSearch }) => {
 
               <div className="cursor-pointer link">
                 <p>Returns</p>
-                <p className="font-extrabold md:text-sm">& Orders</p>
+                <p className="font-extrabold md:text-sm" onClick={() => router.push("/orders")}>& Orders</p>
               </div>
             </>
           )}
@@ -170,12 +197,12 @@ const Header = ({ openVoiceSearch }) => {
             className="link relative flex items-center"
             onClick={() => router.push("/checkout")}
           >
-            <span className="absolute top-0 right-0 md:right-10 h-4 w-4 bg-yellow-400 text-center rounded-full text-black font-bold">
+            <span className="absolute top-0 left-4 sm:left-6 md:right-10 h-4 w-4 bg-yellow-400 text-center rounded-full text-black font-bold">
               {total}
             </span>
 
             <ShoppingCartIcon className="h-8 sm:h-10" />
-            <p className="hidden md:inline font-extrabold md:text-sm">Basket</p>
+            <p className="hidden md:inline font-extrabold md:text-sm">Cart</p>
           </div>
         </div>
       </div>

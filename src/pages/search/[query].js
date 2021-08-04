@@ -5,7 +5,7 @@ import Banner from "../../components/Banner";
 import ProductFeed from "../../components/ProductFeed";
 import { getSearchQuery, setSearch } from "../../slices/searchSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { getVoiceSearch } from "../../slices/voiceSlice";
+import { getVoiceSearch, setVoiceSearch } from "../../slices/voiceSlice";
 import { useEffect } from "react";
 import Head from "next/head";
 
@@ -98,7 +98,7 @@ const search = ({products}) => {
     product.category.toLowerCase() === (search?.toLowerCase() || "")
   );
 
-  // useEffect(() => {}, [filteredProducts]);
+  useEffect(() => {}, [filteredProducts]);
 
     return (
         <div className="bg-gray-100">

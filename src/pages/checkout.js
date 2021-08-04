@@ -55,7 +55,6 @@ const checkout = () => {
 
   const {
     transcript,
-    listening,
     resetTranscript,
     browserSupportsContinuousListening,
   } = useSpeechRecognition({ commands });
