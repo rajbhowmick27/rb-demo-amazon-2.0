@@ -17,17 +17,16 @@ import {
 import { useState } from "react";
 
 import { signIn, signOut, useSession } from "next-auth/client";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { selectItems } from "../slices/basketSlice";
 import { getSearchQuery, setSearch } from "../slices/searchSlice";
 
-const Header = ({
-  openVoiceSearch,
-}) => {
+const Header = ({ openVoiceSearch }) => {
   const [show, setShow] = useState(false);
-  const {search} = useSelector(getSearchQuery);
+  const { search } = useSelector(getSearchQuery);
 
+  const router = useRouter();
 
   const dispatch = useDispatch();
 
@@ -37,24 +36,17 @@ const Header = ({
 
   const clearSearch = () => {
     dispatch(setSearch(""));
+    router.push("/");
   };
 
   const [session] = useSession();
 
-  const router = useRouter();
-
   // retrieve the items from the store
-  const {total} = useSelector(selectItems);
+  const { total } = useSelector(selectItems);
 
   const toggleShow = () => {
     setShow(!show);
   };
-
-  // const categorySearch = (query) => {
-  //   dispatch(setSearch(query));
-  // }
-
-  
 
   return (
     <header>
@@ -63,7 +55,12 @@ const Header = ({
         <div className="mt-3 flex items-center flex-grow-0">
           <Image
             src="https://links.papareact.com/f90"
-            onClick={() => router.push("/")}
+            onClick={() => {
+              if (search?.length !== 0) {
+                dispatch(setSearch(""));
+              }
+              router.push("/");
+            }}
             width={150}
             height={40}
             objectFit="contain"
@@ -111,9 +108,7 @@ const Header = ({
                 className="rounded-full cursor-pointer"
               />
               <div className="flex items-center justify-center sm:p-1 cursor-pointer">
-                <p
-                  className="hidden sm:block font-extrabold text-lg"
-                >
+                <p className="hidden sm:block font-extrabold text-lg">
                   {session.user.name}
                 </p>
                 {show ? (
@@ -146,7 +141,7 @@ const Header = ({
                   <Link href="/orders">
                     <a className="list_item">Orders</a>
                   </Link>
-                  <Link href="#">
+                  <Link href="/returns">
                     <a className="list_item">Returns</a>
                   </Link>
                   <Link href="#">
@@ -157,27 +152,24 @@ const Header = ({
                 </div>
               </Transition>
             </div>
-          ) : 
-          
-          (
+          ) : (
             <>
+              <div onClick={signIn} className="cursor-pointer link">
+                <p className="hover:underline">Hello, Sign In</p>
+                <p className="font-extrabold md:text-sm">Account & Lists</p>
+              </div>
 
-            <div onClick={signIn} className="cursor-pointer link">
-              <p className="hover:underline">
-                Hello, Sign In
-              </p>
-              <p className="font-extrabold md:text-sm">Account & Lists</p>
-            </div>
-
-            <div className="cursor-pointer link">
-              <p>Returns</p>
-              <p className="font-extrabold md:text-sm">& Orders</p>
-            </div>
+              <div className="cursor-pointer link">
+                <p>Returns</p>
+                <p className="font-extrabold md:text-sm">& Orders</p>
+              </div>
             </>
-          )
-          }
+          )}
 
-          <div className="link relative flex items-center" onClick={() => router.push("/checkout")}>
+          <div
+            className="link relative flex items-center"
+            onClick={() => router.push("/checkout")}
+          >
             <span className="absolute top-0 right-0 md:right-10 h-4 w-4 bg-yellow-400 text-center rounded-full text-black font-bold">
               {total}
             </span>
@@ -190,17 +182,29 @@ const Header = ({
 
       {/* Bottom Nav */}
       <div className="flex items-center space-x-3 p-2 pl=6 bg-amazon_blue-light text-white text-sm">
-        <p className="link flex items-center" onClick={() => router.push("/search/")}>
+        <p
+          className="link flex items-center"
+          onClick={() => {
+            dispatch(setSearch(""));
+            router.push("/");
+          }}
+        >
           <MenuIcon className="h-6 mr-1" />
           All
         </p>
         <p className="link" onClick={() => router.push("/search/Electronics")}>
           Electronics
         </p>
-        <p className="link" onClick={() => router.push("/search/"+"Men's"+" Clothing")}>
+        <p
+          className="link"
+          onClick={() => router.push("/search/" + "Men's" + " Clothing")}
+        >
           Men's Clothing
         </p>
-        <p className="link" onClick={() => router.push("/search/"+"Women's"+" Clothing")}>
+        <p
+          className="link"
+          onClick={() => router.push("/search/" + "Women's" + " Clothing")}
+        >
           Women's Clothing
         </p>
         <p
@@ -220,6 +224,5 @@ const Header = ({
 };
 
 export default Header;
-
 
 // https://i.postimg.cc/4NTq5cM1/download.jpg

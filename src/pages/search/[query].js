@@ -26,11 +26,11 @@ const search = ({products}) => {
     const {search} = useSelector(getSearchQuery);
     const voiceSearch = useSelector(getVoiceSearch);
 
+    const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch(setSearch(query));
-    },[query])
-
-    const dispatch = useDispatch();
+    },[query,dispatch])
 
     const commands = [
         {
@@ -43,7 +43,6 @@ const search = ({products}) => {
     
       const {
         transcript,
-        listening,
         resetTranscript,
         browserSupportsContinuousListening,
       } = useSpeechRecognition({ commands });
@@ -87,7 +86,7 @@ const search = ({products}) => {
         }, 10000);
     
         return () => clearTimeout(timer);
-      }, [voiceSearch]);
+      }, [voiceSearch,dispatch]);
 
     const filteredProducts = products.filter((product) => 
     product.title.toLowerCase().includes(search?.toLowerCase() || "") || 

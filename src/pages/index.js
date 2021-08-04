@@ -82,7 +82,7 @@ export default function Home({ products }) {
     }, 10000);
 
     return () => clearTimeout(timer);
-  }, [voiceSearch]);
+  }, [voiceSearch,dispatch]);
 
   
   const filteredProducts = products.filter((product) => 

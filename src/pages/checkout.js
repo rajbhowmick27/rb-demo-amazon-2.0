@@ -96,7 +96,7 @@ const checkout = () => {
     }, 10000);
 
     return () => clearTimeout(timer);
-  }, [voiceSearch]);
+  }, [voiceSearch,dispatch]);
 
   // console.log(items);
 
