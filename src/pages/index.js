@@ -10,7 +10,6 @@ import { createSpeechlySpeechRecognition } from "@speechly/speech-recognition-po
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-import { list } from "postcss";
 import { useDispatch, useSelector } from "react-redux";
 import { getSearchQuery, setSearch } from "../slices/searchSlice";
 import { getVoiceSearch, setVoiceSearch } from "../slices/voiceSlice";
