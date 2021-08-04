@@ -31,7 +31,10 @@ export default function Home({ products }) {
     {
       command: "*",
       callback: (finalTranscript) => {
-        router.push('/search/'+finalTranscript)
+        if(finalTranscript?.length !== 0)
+          router.push('/search/'+finalTranscript)
+        else
+          router.push('/')
       },
     },
   ];
@@ -82,7 +85,7 @@ export default function Home({ products }) {
     }, 10000);
 
     return () => clearTimeout(timer);
-  }, [voiceSearch,dispatch]);
+  }, [voiceSearch,dispatch,closeVoiceSearch]);
 
   
   const filteredProducts = products.filter((product) => 
@@ -90,7 +93,7 @@ export default function Home({ products }) {
     product.category.toLowerCase() === (search?.toLowerCase() || "")
   );
 
-  useEffect(() => {}, [filteredProducts]);
+  // useEffect(() => {}, [filteredProducts]);
 
   // if (!browserSupportsSpeechRecognition) {
   //   return (<span>Browser doesn't support speech recognition.</span>);

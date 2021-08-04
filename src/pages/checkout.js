@@ -45,7 +45,10 @@ const checkout = () => {
     {
       command: "*",
       callback: (finalTranscript) => {
-        router.push('/search/'+finalTranscript)
+        if(finalTranscript?.length !== 0)
+          router.push('/search/'+finalTranscript)
+        else
+          router.push('/')
       },
     },
   ];
@@ -96,7 +99,7 @@ const checkout = () => {
     }, 10000);
 
     return () => clearTimeout(timer);
-  }, [voiceSearch,dispatch]);
+  }, [voiceSearch,dispatch,closeVoiceSearch]);
 
   // console.log(items);
 

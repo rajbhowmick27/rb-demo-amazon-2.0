@@ -36,7 +36,12 @@ const search = ({products}) => {
         {
           command: "*",
           callback: (finalTranscript) => {
-            dispatch(setSearch(finalTranscript));
+            if(finalTranscript?.length !== 0)
+              dispatch(setSearch(finalTranscript));
+            else{
+              dispatch(setSearch(""));
+              router.push("/");
+            }
           },
         },
       ];
@@ -86,14 +91,14 @@ const search = ({products}) => {
         }, 10000);
     
         return () => clearTimeout(timer);
-      }, [voiceSearch,dispatch]);
+      }, [voiceSearch,dispatch,closeVoiceSearch]);
 
     const filteredProducts = products.filter((product) => 
     product.title.toLowerCase().includes(search?.toLowerCase() || "") || 
     product.category.toLowerCase() === (search?.toLowerCase() || "")
   );
 
-  useEffect(() => {}, [filteredProducts]);
+  // useEffect(() => {}, [filteredProducts]);
 
     return (
         <div className="bg-gray-100">
