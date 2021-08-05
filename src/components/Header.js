@@ -83,11 +83,11 @@ const Header = ({ openVoiceSearch }) => {
             }}
             className="w-full"
           >
-          <div className="flex items-center h-10 rounded-md flex-grow cursor-pointer bg-yellow-400 hover:bg-yellow-500">
+          <div className="flex items-center h-8 sm:h-10 rounded-md flex-grow cursor-pointer bg-yellow-400 hover:bg-yellow-500">
             
               <input
                 ref={searchRef}
-                className="p-2 h-full w-6 flex-grow flex-shrink rounded-l-md focus:outline-none px-4"
+                className="p-2 h-full w-16 flex-grow flex-shrink rounded-l-md focus:outline-none px-4"
                 type="text"
                 placeholder="Search"
                 value={search?.toLowerCase()}
@@ -95,7 +95,7 @@ const Header = ({ openVoiceSearch }) => {
               />
             
             {search?.length > 0 && (
-              <div className="bg-white flex items-center justify-center h-10">
+              <div className="bg-white flex items-center justify-center h-8 sm:h-10">
                 <XCircleIcon className="h-6 text-black" onClick={clearSearch} />
               </div>
             )}
@@ -182,11 +182,14 @@ const Header = ({ openVoiceSearch }) => {
           ) : (
             <>
               <div onClick={signIn} className="cursor-pointer link">
-                <p className="hover:underline">Hello, Sign In</p>
-                <p className="font-extrabold md:text-sm">Account & Lists</p>
+                <div className="flex flex-col items-center sm:flex-row hover:underline">
+                  <p className="text-md">Hello,</p>
+                  <p className="text-md font-semibold sm:ml-1">Sign In</p>
+                </div>
+                <p className="hidden sm:inline-flex font-extrabold md:text-sm">Account & Lists</p>
               </div>
 
-              <div className="cursor-pointer link">
+              <div className="cursor-pointer link hidden sm:block">
                 <p>Returns</p>
                 <p className="font-extrabold md:text-sm" onClick={() => router.push("/orders")}>& Orders</p>
               </div>

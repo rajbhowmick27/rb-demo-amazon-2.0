@@ -42,6 +42,8 @@ export default async (req, res) => {
 
         const payload = requestBuffer.toString();
 
+        // const payload = req.body;
+
         const sig = req.headers["stripe-signature"];
 
         let event;
@@ -75,3 +77,5 @@ export const config = {
         externalResolver: true,
     }
 }
+
+// https://rb-demo-amazn-2-0-f4fvh9bqi-rajbhowmick27.vercel.app/
